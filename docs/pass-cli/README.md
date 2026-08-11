@@ -117,7 +117,7 @@ stevedore only creates items. It does not update or delete an existing one.
 
 A move therefore checks the vault first, and passes over anything already there
 under the same title and kind — so running the same move twice does not leave two
-of everything, and a move interrupted part-way can simply be run again.
+of everything, and a move interrupted part-way can be run again.
 
 ## Unknown fields are dropped in silence
 

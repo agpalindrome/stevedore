@@ -79,7 +79,7 @@ actually *prevent* rather than merely announce.
 ## Keep documentation current
 
 Documentation is part of the change, not a follow-up. Before opening a PR, check
-whether it touches user-facing behavior, the public API, or a design decision,
+whether it touches user-facing behaviour, the public API, or a design decision,
 and update the affected docs in the same PR.
 
 **User-facing docs carry no developer notes.** The workspace and per-crate

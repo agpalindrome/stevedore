@@ -94,8 +94,8 @@ in neither the error nor its debug form.
 
 ## What this does not cover
 
-- **Metadata is not redacted.** Unless identified and modeled as a secret value, fields will be treated as metadata.
-- **The store's own tool has its own behavior.** stevedore never authenticates
+- **Metadata is not redacted.** Unless identified and modelled as a secret value, fields will be treated as metadata.
+- **The store's own tool has its own behaviour.** stevedore never authenticates
   and never unlocks a vault; that is set up separately with each store. How that tool
   stores credentials, what it writes to disk, and what it does with the system
   clipboard, is outside stevedore's control — see that store's notes for what its
