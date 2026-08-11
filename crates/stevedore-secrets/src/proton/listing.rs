@@ -81,7 +81,7 @@ pub enum Kind {
 
 /// Whether an item is live or trashed.
 ///
-/// `pass-cli` reports these capitalised (`"Active"`) but takes them lowercase
+/// `pass-cli` reports these capitalized (`"Active"`) but takes them lowercase
 /// as `--filter-state active`.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize)]
 pub enum State {
