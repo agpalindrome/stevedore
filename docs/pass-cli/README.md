@@ -10,7 +10,7 @@ performs with `pass-cli` directly**. stevedore assumes a working session.
 ## Install
 
 Install `pass-cli` by following Proton's own
-[installation guide](https://proton.me/support/pass-cli).
+[installation guide](https://protonpass.github.io/pass-cli/get-started/installation/).
 
 ## Log in
 

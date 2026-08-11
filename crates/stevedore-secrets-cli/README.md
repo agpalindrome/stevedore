@@ -6,7 +6,7 @@ The command-line interface for
 ```console
 $ stevedore stores
 sources: dashlane
-sinks:   (none yet)
+sinks:   proton-pass
 ```
 
 Licensed under either of Apache-2.0 or MIT at your option.
