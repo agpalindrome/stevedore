@@ -44,7 +44,7 @@ proves nothing.
 ## Landing a change
 
 - Work on a branch and open a PR — `main` requires a PR and the `ci` check.
-- Keep the change and its docs together: if you change behavior, the public API,
+- Keep the change and its docs together: if you change behaviour, the public API,
   or a design decision, update the affected README / rustdoc / `--help` in the
   **same** PR.
 - Squash-merge; delete the branch after.
