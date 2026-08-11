@@ -41,6 +41,30 @@ its mode indefinitely — `chmod 600` on it is harmless. Its contents are
 encrypted, so this matters if the file is lifted out of that directory, by a
 backup or sync tool or a container mount. Observed on Linux, 2026-08-05.
 
+## On Linux, a reboot ends the session
+
+By default `pass-cli` keeps the key to its local database in the Linux kernel
+keyring, which a reboot clears. The next `pass-cli` command after a restart does
+not fail — it deletes the local session and asks you to log in again, even a
+read-only one:
+
+```console
+$ pass-cli vault list
+Error: Local encryption key not found but local data exists. Forcing logout for security.
+```
+
+No vault content is lost, since none is held locally. What goes is the session,
+and `pass-cli login` is interactive — so an unattended move cannot recover on
+its own. **Log in again after a reboot, before running stevedore.**
+
+To keep the session across reboots, set `PROTON_PASS_LINUX_KEYRING=dbus` and run
+a Secret Service such as GNOME Keyring; `pass-cli` then stores the key there
+instead. Changing the backend leaves the current session unreadable, so log in
+once more after switching.
+
+Observed on Linux, 2026-08-05, with `pass-cli` 2.2.4. The D-Bus route is
+untested here, on a machine that runs no Secret Service.
+
 ## What can be written
 
 🟢 supported · 🔵 planned · 🔴 not possible
