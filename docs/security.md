@@ -7,8 +7,8 @@ read it. This document explains what that means and how the code enforces it.
 ## What counts as a secret
 
 stevedore models each store explicitly and marks certain fields of each record
-as secret **values** — the material this tool exists to protect. Everything a
-store does not mark as secret is treated as ordinary metadata.
+as secret **values** — the material this tool exists to protect. Everything it
+does not mark is ordinary metadata.
 
 Which fields are secret is a property of each store and is listed in that
 store's own documentation (for Dashlane, see [the Personal notes](dcli/personal.md);
@@ -94,7 +94,10 @@ in neither the error nor its debug form.
 
 ## What this does not cover
 
-- **Metadata is not redacted.** Unless identified and modelled as a secret value, fields will be treated as metadata.
+- **Metadata is not redacted.** stevedore redacts only the fields its own model
+  of a store marks secret. A title, a username, an email address or a URL is an
+  ordinary string, and titles reach the terminal — a move lists by title the
+  items it reports rather than decides.
 - **The store's own tool has its own behaviour.** stevedore never authenticates
   and never unlocks a vault; that is set up separately with each store. How that tool
   stores credentials, what it writes to disk, and what it does with the system
