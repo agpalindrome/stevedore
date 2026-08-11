@@ -69,11 +69,14 @@ nix develop
 
 # then, the usual loop:
 cargo test
-cargo clippy --all-targets -- -D warnings
+cargo clippy --all-targets
 cargo run -p stevedore-secrets-cli -- stores
 ```
 
-CI runs `fmt`, `clippy`, `test`, and `cargo deny check` through the same flake.
+CI runs `fmt`, `clippy`, `test`, the doc tests, `cargo doc --no-deps`, and
+`cargo deny check` through the same flake. Lints carry their level in
+`Cargo.toml`, so plain `cargo clippy` gives the verdict CI does — see
+[`CONTRIBUTING.md`](CONTRIBUTING.md) for the full loop.
 
 ### A note on secrets
 
