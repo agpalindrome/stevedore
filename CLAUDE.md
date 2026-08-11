@@ -56,6 +56,26 @@ change.
 - Store credentials for a run are supplied deliberately (flags/prompts/env for one
   invocation), never loaded ambiently in `.envrc.shared`.
 
+## A store CLI's own hazards are documented, not modelled
+
+Where driving a store CLI can hurt the user through no fault of stevedore's, the
+answer is a **stated precondition in that store's docs**, not a stevedore-side
+check that predicts the vendor's behaviour.
+
+The worked case is `pass-cli` on Linux (#34): the local key lives in the kernel
+keyring, a reboot clears it, and the next command — read-only or not —
+force-logs the user out. Stevedore could look for the key first and decline, since the
+credential name is derivable (`cli-local-key:{sha256(canonicalized base_dir)}`
+under service `ProtonPassCLI`). It doesn't. Reimplementing a vendor's key lookup
+to anticipate a vendor's failure is coupling that rots silently, and it buys a
+better error rather than a working session — recovery is `pass-cli login` either
+way. So the precondition is written down and the check is not built.
+
+This is the same boundary `docs/security.md` already draws: how a store's own
+tool keeps its state is outside stevedore's control, and each store's notes say
+what its tool is known to do. Reopen it if a hazard turns up that a check could
+actually *prevent* rather than merely announce.
+
 ## Keep documentation current
 
 Documentation is part of the change, not a follow-up. Before opening a PR, check
