@@ -1,0 +1,8 @@
+extends: existence
+message: "'%s' tells a stuck reader the thing is easy. Cut it."
+level: error
+ignorecase: true
+raw:
+  # Requires trailing whitespace, so hyphenated compounds are excluded:
+  # "obviously-correct" is the term of art for a test oracle, not condescension.
+  - \b(simply|obviously)\s

@@ -159,6 +159,37 @@ The lint config follows the cross-project defaults in `~/.claude/rust.md`
 - **Edition 2024 sets rustfmt's `style_edition` too**, which orders imports
   differently from 2021. An edition bump is therefore also a reformat.
 
+## Prose: the rules are vendored, and the gate is a CI step
+
+The house prose style lives in `~/.claude/vale`. Its `scripts/sync-vale.sh`
+vendors the rules into `.vale/styles` here and writes `.vale.ini`; run it from
+inside this repo. They are vendored rather than referenced because a
+machine-global styles directory is invisible to CI, and `vale sync` needs a
+public host that the private source repo cannot be. Re-run the script to take an
+upstream change; `--check` reports drift.
+
+- **The gate is `scripts/prose.sh`, called by CI and `.githooks/pre-push`.**
+  This repo runs every check as a step inside the flake dev shell, so the prose
+  gate matches — it is not a `flake.nix` `checks` derivation, because this flake
+  declares no `checks` output and CI never runs `nix flake check`. Adding one
+  would have been a gate nothing invokes.
+- **Errors block, warnings do not.** vale exits non-zero on errors alone, so
+  this needs no flag. A gate that fails on a warning backlog is a gate someone
+  switches off.
+- **`--no-global` is load-bearing.** Without it vale merges a machine-global
+  styles directory over the vendored rules, which is how a local run comes to
+  disagree with CI.
+- **The script asserts its file list is non-empty.** Handed no paths, `xargs
+  vale` lints stdin, reports zero errors and exits 0 — a green check over
+  nothing.
+- **Scope is every tracked markdown file.** All of it is stevedore's own
+  documentation, there are no prose fixtures, and nothing here carries a voice
+  that is an author's rather than the project's. A file that does needs an
+  exclusion and a reason.
+- **vale comes from the flake**, so CI and a local run cannot disagree about the
+  version. A `nix flake update` can move it, and a rule the new version reads
+  differently shows up as a prose failure with no prose change.
+
 ## Deliberately not adopted
 
 The cross-project Rust defaults were adopted in full; these four were weighed
