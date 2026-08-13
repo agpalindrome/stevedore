@@ -54,6 +54,7 @@
             pkgs.gitleaks # secret scanner for the pre-commit guard (.githooks/pre-commit)
             pkgs.actionlint # GitHub Actions workflow linter (.github/workflows)
             pkgs.yamllint
+            pkgs.vale # prose linter for the vendored house style (scripts/prose.sh)
           ];
 
           env.RUST_BACKTRACE = "1";

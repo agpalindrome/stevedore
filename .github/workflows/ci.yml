@@ -66,3 +66,9 @@ jobs:
 
       - name: Dependency policy (licenses, advisories, bans, sources)
         run: nix develop --command bash -c "cargo deny check"
+
+      # The house prose style, vendored in .vale/styles. Errors block, warnings
+      # do not. vale comes from the same flake as every gate above, so CI and a
+      # local run cannot disagree about the version.
+      - name: Prose
+        run: nix develop --command bash -c "./scripts/prose.sh"

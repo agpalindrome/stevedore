@@ -25,6 +25,7 @@ cargo clippy --all-targets
 cargo test
 cargo doc --no-deps
 cargo deny check
+./scripts/prose.sh
 ```
 
 CI runs exactly these through the same flake, so green locally means green in CI.
@@ -34,6 +35,9 @@ same verdict CI does — no `-D warnings` needed. `cargo doc` is a gate, not a
 convenience: it is the only command that enforces the rustdoc lints. Suppress a
 lint with `#[expect(…, reason = "…")]` rather than `#[allow]`, so the
 suppression fails once it stops applying.
+
+`./scripts/prose.sh` lints the markdown against the house style vendored in
+`.vale/styles`. Errors block; warnings print and do not.
 
 Run these **inside the dev shell**. `rustfmt.toml` uses options that need a
 nightly rustfmt, which the flake pins and supplies — so `cargo fmt` is right as

@@ -1,36 +1,52 @@
 #!/usr/bin/env bash
 #
-# pre-push quality gate. Runs the two fast, deterministic checks CI also runs —
-# formatting and clippy — so a red CI is caught before the push, not after.
-# Mirrors the `fmt` / `clippy` gates in .github/workflows/ci.yml; keep them in
-# sync so "passes pre-push" means "passes those CI gates".
+# pre-push quality gate. Runs the fast, deterministic checks CI also runs —
+# formatting, clippy and prose — so a red CI is caught before the push, not
+# after. Mirrors the `fmt` / `clippy` / `prose` gates in
+# .github/workflows/ci.yml; keep them in sync so "passes pre-push" means
+# "passes those CI gates".
 #
 # Armed per clone via core.hooksPath (`git config core.hooksPath .githooks`) —
-# reaching this hook at all confirms the hooks are wired up. If the Rust
-# toolchain isn't on PATH (e.g. outside the flake dev shell), the checks are
-# skipped with a warning rather than blocking the push; CI still gates them.
+# reaching this hook at all confirms the hooks are wired up. A tool that isn't
+# on PATH (e.g. outside the flake dev shell) is skipped with a warning rather
+# than blocking the push; CI still gates them all.
 set -euo pipefail
 
-if ! command -v cargo >/dev/null 2>&1; then
+checked=()
+
+if command -v cargo >/dev/null 2>&1; then
+  # rustfmt.toml sets nightly-only options, which a stable rustfmt ignores with
+  # a warning and then passes regardless — a green that means nothing. The
+  # flake supplies a pinned nightly; outside it, skip rather than report a
+  # false pass.
+  if rustfmt --version | grep -q nightly; then
+    echo "pre-push: cargo fmt --check…"
+    cargo fmt --check
+    checked+=("fmt")
+  else
+    echo "pre-push: rustfmt is not the pinned nightly; skipping the fmt check." >&2
+    echo "          (enter the dev shell to run it.)" >&2
+  fi
+
+  echo "pre-push: cargo clippy --all-targets…"
+  cargo clippy --all-targets --locked
+  checked+=("clippy")
+else
   echo "pre-push: cargo not found on PATH; skipping fmt/clippy." >&2
   echo "          (enter the dev shell or install the toolchain to enable it.)" >&2
-  exit 0
 fi
 
-# rustfmt.toml sets nightly-only options, which a stable rustfmt ignores with a
-# warning and then passes regardless — a green that means nothing. The flake
-# supplies a pinned nightly; outside it, skip rather than report a false pass.
-checked="fmt + clippy"
-if rustfmt --version | grep -q nightly; then
-  echo "pre-push: cargo fmt --check…"
-  cargo fmt --check
+if command -v vale >/dev/null 2>&1; then
+  echo "pre-push: scripts/prose.sh…"
+  "$(git rev-parse --show-toplevel)/scripts/prose.sh"
+  checked+=("prose")
 else
-  checked="clippy"
-  echo "pre-push: rustfmt is not the pinned nightly; skipping the fmt check." >&2
+  echo "pre-push: vale not found on PATH; skipping the prose check." >&2
   echo "          (enter the dev shell to run it.)" >&2
 fi
 
-echo "pre-push: cargo clippy --all-targets…"
-cargo clippy --all-targets --locked
-
-echo "pre-push: $checked clean."
+if [ ${#checked[@]} -eq 0 ]; then
+  echo "pre-push: nothing checked — no tools on PATH." >&2
+else
+  echo "pre-push: ${checked[*]} clean."
+fi

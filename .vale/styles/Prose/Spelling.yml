@@ -1,0 +1,45 @@
+extends: substitution
+message: "Oxford British spelling: use '%s', not '%s'."
+level: error
+ignorecase: true
+# Proper nouns, which vale cannot tell from a misspelling. A name is not a
+# spelling and cannot be corrected, so the whole phrase is exempted here rather
+# than reworded. Measured 2026-08-11 with vale 3.17.0: the match is the whole
+# phrase and it is case-sensitive, so a lowercase `iam identity center` and an
+# ordinary `Center the div` are still flagged. `Identity Center` alone was too,
+# until it earned its own entry below. Add a name when prose here trips over it;
+# skip the rule inline for a one-off.
+exceptions:
+  - IAM Identity Center # AWS, 2026-08-11
+  - Identity Center # AWS, the short name in prose, 2026-08-12
+  - Bureau of Labor Statistics
+  - Kennedy Space Center
+swap:
+  colors?: colour(s)
+  # Match only the American form. An optional `u` also matches the correct
+  # British spelling, and it fires whenever the replacement text differs from
+  # the match — which `favourite(s)` does, because of the literal "(s)".
+  # Measured 2026-08-10: `favou?rites?` flagged a correct "favourite" in a
+  # published post, while `colou?red` stayed silent only by accident.
+  colored: coloured
+  behaviors?: behaviour(s)
+  favorites?: favourite(s)
+  labor: labour
+  honor: honour
+  centers?: centre(s)
+  centered: centred
+  defense: defence
+  offense: offence
+  gray: grey
+  traveled: travelled
+  traveling: travelling
+  modeled: modelled
+  modeling: modelling
+  canceled: cancelled
+  canceling: cancelling
+  labeled: labelled
+  labeling: labelling
+  fulfill: fulfil
+  analyze: analyse
+  analyzed: analysed
+  analyzing: analysing
