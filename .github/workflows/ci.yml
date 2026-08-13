@@ -24,7 +24,7 @@ jobs:
 
       # Same flake as local dev, so a gate that passes locally passes here.
       - name: Install Nix
-        uses: DeterminateSystems/nix-installer-action@main
+        uses: DeterminateSystems/nix-installer-action@ef8a148080ab6020fd15196c2084a2eea5ff2d25 # v22
 
       # Cache the flake dev shell across runs; the cold `nix develop` dominates the job.
       - name: Cache the Nix store
