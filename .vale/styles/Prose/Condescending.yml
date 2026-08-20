@@ -8,7 +8,7 @@ extends: existence
 # (Prose.Merely). Deleting `just` there inverts the sentence, so the word is
 # load-bearing; deleting a merely-sense `simply` changes nothing. Six instances
 # were checked against the delete test on 2026-08-19 and all six were
-# deletable. See vale/README.md.
+# deletable. See `vale/README.md` in agpalindrome/claude.
 message: "'%s' adds emphasis, not meaning, so cut it. Where it modifies an instruction it also tells a stuck reader the thing is easy."
 level: error
 ignorecase: true
