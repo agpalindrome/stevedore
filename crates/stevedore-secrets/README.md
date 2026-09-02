@@ -1,6 +1,6 @@
 # stevedore-secrets
 
-The core library behind [`stevedore`](https://github.com/ojhermann-org/stevedore).
+The core library behind [`stevedore`](https://github.com/agpalindrome/stevedore).
 
 ## What it offers
 
