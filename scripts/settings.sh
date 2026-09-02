@@ -13,9 +13,9 @@
 # appended to the end of `rules` rather than in any canonical order, so a rule
 # written anywhere but last in main.json used to report drift immediately after
 # an --apply that had in fact succeeded (observed 2026-08-11 on
-# ojhermann-org/agpalindrome-aws). normalize() now sorts every array on both
-# sides, so the committed file may list rules, bypass actors and required
-# status checks in any order.
+# ojhermann-org/agpalindrome-aws, since renamed to agpalindrome/aws).
+# normalize() now sorts every array on both sides, so the committed file may
+# list rules, bypass actors and required status checks in any order.
 #
 # The cost, stated plainly: if GitHub ever gives an array in a ruleset a
 # meaning that depends on its order, this diff will not see a change to it.

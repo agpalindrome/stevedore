@@ -16,7 +16,7 @@ edition = "2024"
 # current toolchain — so the lint set below drifts with every upgrade.
 rust-version = "1.97"
 license = "MIT OR Apache-2.0"
-repository = "https://github.com/ojhermann-org/stevedore"
+repository = "https://github.com/agpalindrome/stevedore"
 
 [workspace.dependencies]
 # The library's only runtime dependency for now: ergonomic error enums.

@@ -1,7 +1,7 @@
 # stevedore-secrets-cli
 
 The command-line interface for
-[`stevedore`](https://github.com/ojhermann-org/stevedore). Installs the
+[`stevedore`](https://github.com/agpalindrome/stevedore). Installs the
 `stevedore` binary.
 
 ```console

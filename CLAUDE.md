@@ -274,7 +274,7 @@ can fail before trusting that it passes.
 - **Repo-level settings are code.** The branch ruleset is
   `.github/rulesets/main.json`, reconciled by `scripts/settings.sh`
   (`--check` / `--apply`, owner-run). Org-wide settings live in
-  `ojhermann-org/github-settings`. The two layers compose.
+  `agpalindrome/github-settings`. The two layers compose.
 - **Nothing is published yet.** Every crate is `publish = false`. Cutting a
   release — flipping that, versioning, tagging, wiring release-plz / crates.io —
   is the owner's call, not ordinary development.
