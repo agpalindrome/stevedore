@@ -19,7 +19,7 @@ Install `dcli` by following Dashlane's own
 stevedore ever runs. On Linux that copy is
 `~/.local/share/dashlane-cli/userdata.db` (`~/Library/Application Support/` on
 macOS, `%APPDATA%` on Windows): an ordinary SQLite database carrying every login,
-secure note and secret, resynchronised hourly. stevedore reads from it and adds
+secure note and secret, resynchronized hourly. stevedore reads from it and adds
 nothing to it.
 
 Each item's contents are encrypted individually. The database around them is
