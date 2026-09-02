@@ -30,6 +30,7 @@
 //! ```
 
 mod cli;
+mod dataroot;
 
 pub mod dashlane;
 pub mod error;

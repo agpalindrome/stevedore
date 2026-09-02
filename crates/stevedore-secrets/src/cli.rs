@@ -5,13 +5,19 @@
 //! treated as vault contents and never logged, stderr is stripped of escape
 //! codes before it reaches an error, and a secret is handed over on stdin
 //! rather than in an argument.
+//!
+//! It is also the one launch point, so the policy that gives a store CLI an
+//! owner-only data directory is applied here — see [`crate::dataroot`].
 
 use std::{
     io::{ErrorKind, Write},
     process::{Child, Command, Output, Stdio},
 };
 
-use crate::error::{CliError, Error, Result};
+use crate::{
+    dataroot,
+    error::{CliError, Error, Result},
+};
 
 /// Run `program` and return its stdout.
 ///
@@ -61,6 +67,7 @@ pub(crate) fn run_with_stdin(
 }
 
 fn spawn(program: &'static str, args: &[&str], stdin: Stdio) -> Result<Child> {
+    dataroot::prepare(program)?;
     Command::new(program)
         .args(args)
         .stdin(stdin)

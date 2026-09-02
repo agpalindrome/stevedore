@@ -22,7 +22,7 @@
 //! from Dashlane when that copy is over an hour old — so a read can reach the
 //! network without [`sync`] being called.
 
-mod client;
+pub(crate) mod client;
 mod login;
 mod note;
 mod secret;
