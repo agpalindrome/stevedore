@@ -9,7 +9,7 @@ use crate::{
 
 /// The external CLI stevedore drives. It must already be registered and
 /// unlocked — stevedore never authenticates. See `docs/dcli/`.
-pub(super) const DCLI: &str = "dcli";
+pub(crate) const DCLI: &str = "dcli";
 
 /// What `dcli status` reports.
 #[derive(Debug, Clone)]

@@ -14,7 +14,7 @@ use crate::{
 
 /// The external CLI stevedore drives. It must already be logged in — stevedore
 /// never authenticates. See `docs/pass-cli/`.
-pub(super) const PASS_CLI: &str = "pass-cli";
+pub(crate) const PASS_CLI: &str = "pass-cli";
 
 /// What `pass-cli info` reports about the logged-in account.
 ///

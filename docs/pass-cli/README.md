@@ -41,6 +41,12 @@ its mode indefinitely — `chmod 600` on it is harmless. Its contents are
 encrypted, so this matters if the file is lifted out of that directory, by a
 backup or sync tool or a container mount. Observed on Linux, 2026-08-05.
 
+stevedore does not leave that directory to `pass-cli`. Before running it,
+stevedore creates `proton-pass-cli` under your data home readable by you alone,
+or removes group and world access from one already there. `pass-cli` reads
+`XDG_DATA_HOME` on Linux and stevedore follows it to the same place. This applies
+on Linux and macOS; Windows has no equivalent mode.
+
 ## On Linux, a reboot ends the session
 
 By default `pass-cli` keeps the key to its local database in the Linux kernel

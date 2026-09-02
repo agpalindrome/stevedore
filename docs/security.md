@@ -59,6 +59,19 @@ allow, and it is confined to a single function that every written item passes
 through — the counterpart of the parsing gateway below, and just as short to
 read.
 
+### A store's tool gets an owner-only state directory
+
+A store's own tool keeps state on disk — a session, vault keys, and in one case a
+full local copy of the vault — and it creates those files with whatever mode the
+system default allows. Before stevedore runs either tool, it makes that tool's
+state directory readable and writable by its owner alone, creating it if it is
+not there yet. The files inside keep the mode their tool gave them; the directory
+is what stops another account on the machine reaching them.
+
+This is a directory mode, not a sandbox. The tool still runs as you, with the
+network and your keyring in reach. It applies on Linux and macOS; Windows has no
+equivalent mode.
+
 ### Parser errors can't echo the input
 
 When stevedore parses the data a source returns, a parsing
@@ -113,6 +126,6 @@ in neither the error nor its debug form.
 
 The mechanisms above live in a few small places in the `stevedore-secrets`
 library: the redacting type in `secret.rs`, the parsing gateway and error type in
-`error.rs`, the process handling in `cli.rs`, and the leak-regression tests
-alongside each. They are deliberately compact so the guarantee can be read end to
-end.
+`error.rs`, the process handling in `cli.rs`, the directory mode in
+`dataroot.rs`, and the leak-regression tests alongside each. They are
+deliberately compact so the guarantee can be read end to end.

@@ -31,10 +31,15 @@ database also stores your Dashlane Master Password, encrypted. The key that
 unwraps it is kept in your operating system's keyring, and is itself derivable
 from the Master Password.
 
-The file is created **readable by every account on the machine** (`0644`, in a
-`0755` directory), so on a shared computer this is worth knowing about. Tightening
-it with `chmod 600` is harmless and survives until `dcli` next recreates the file.
-Observed on macOS, 2026-07-29.
+`dcli` creates that file **readable by every account on the machine** (`0644`),
+and the directory around it likewise (`0755`). Observed on macOS, 2026-07-29.
+
+stevedore closes the directory. Before it runs `dcli` it creates
+`~/.local/share/dashlane-cli` readable by you alone, or removes group and world
+access from one already there, so the vault copy is reachable only through a
+directory no other account can open. The file keeps whatever mode `dcli` gave
+it — a file already on disk is never re-moded — so `chmod 600` on it is still
+harmless. This applies on Linux and macOS; Windows has no equivalent mode.
 
 ## Scope
 

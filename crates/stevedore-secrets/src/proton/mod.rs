@@ -26,7 +26,7 @@
 //! just for `--show-secrets`, which stevedore never passes. Proton Pass is a
 //! sink, so no secret is read out of it.
 
-mod client;
+pub(crate) mod client;
 mod item;
 mod listing;
 mod vault;

@@ -76,6 +76,35 @@ tool keeps its state is outside stevedore's control, and each store's notes say
 what its tool is known to do. Reopen it if a hazard turns up that a check could
 actually *prevent* rather than merely announce.
 
+## The store CLI's data directory is stevedore's to close
+
+`cli::spawn` makes each store CLI's data directory owner-only before launching
+it (`dataroot.rs`), creating it when it is absent and clearing group and world
+from one already there. `dcli` leaves a full local copy of the vault at `0644`
+in a `0755` directory, and neither CLI re-modes a path that already exists, so
+the directory is the one lever that works.
+
+This does not reverse the section above. That rule refuses a check that
+*announces* a vendor's failure without preventing it; a mode set before the
+vendor's own `mkdir` prevents an exposure, which is the case that section leaves
+open.
+
+**Deriving the path is vendor coupling, and it rots silently.** `dcli` reads
+`HOME` alone — `src/modules/database/connect.ts`, `master` `5c81293` — while
+`pass-cli` resolves its root with the `dirs` crate and so honours
+`XDG_DATA_HOME` on Linux, discarding a value that is not an absolute path
+(`dirs_sys::is_absolute_path`, read from the 2.3.2 binary). If either vendor
+moves its directory, stevedore hardens one nobody uses and nothing reports it.
+There is no cheap check: on a first run the right directory is empty too.
+
+**The failure is fatal on purpose.** Hardening that fails quietly is the failure
+it exists to prevent.
+
+**Redirecting the data root by environment was weighed and declined.**
+`XDG_DATA_HOME` reaches `pass-cli` and not `dcli`; the lever that reaches `dcli`
+is `HOME`, at the price of a separate `dcli` login and a second full copy of the
+vault on disk. Issue #32 carries the measurements.
+
 ## Keep documentation current
 
 Documentation is part of the change, not a follow-up. Before opening a PR, check
