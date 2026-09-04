@@ -36,13 +36,19 @@ else
   echo "          (enter the dev shell or install the toolchain to enable it.)" >&2
 fi
 
-if command -v vale >/dev/null 2>&1; then
+# The vale on PATH outside the dev shell is not the one CI runs, and a rule the
+# two versions read differently would pass here and fail there. So the prose
+# check goes through the flake, the way the rustfmt branch above refuses a
+# toolchain that is not the pinned one. Without nix there is nothing to run it
+# with, so skip rather than fall back to a stray vale.
+if command -v nix >/dev/null 2>&1; then
   echo "pre-push: scripts/prose.sh…"
-  "$(git rev-parse --show-toplevel)/scripts/prose.sh"
+  root="$(git rev-parse --show-toplevel)"
+  nix develop "$root" --command "$root/scripts/prose.sh"
   checked+=("prose")
 else
-  echo "pre-push: vale not found on PATH; skipping the prose check." >&2
-  echo "          (enter the dev shell to run it.)" >&2
+  echo "pre-push: nix not found on PATH; skipping the prose check." >&2
+  echo "          (CI runs it against the flake's vale.)" >&2
 fi
 
 if [ ${#checked[@]} -eq 0 ]; then
